@@ -1,0 +1,9 @@
+{
+	"name": "extension-applovin",
+	"url": "https://github.com/narenjo/extension-applovin",
+	"license": "MIT",
+	"contributors":["vincent-schirmann"],
+	"tags": ["ads","api","ad","monetization","applovin"],
+	"description": "Applovin / OpenFL extension for Android.",
+	"version": "1.0.0"
+}
