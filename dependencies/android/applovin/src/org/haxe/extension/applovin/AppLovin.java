@@ -175,7 +175,10 @@ public class AppLovin extends Extension {
 		});
 	}
 
-	public static float getBannerHeight(){ return getInstance().banner.getBannerHeight();}
+	public static float getBannerHeight(){
+		if(getInstance().banner == null) return 0;
+		return getInstance().banner.getBannerHeight();
+	}
 
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////
