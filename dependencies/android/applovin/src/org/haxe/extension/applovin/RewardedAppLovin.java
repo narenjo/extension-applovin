@@ -124,7 +124,6 @@ public class RewardedAppLovin implements MaxRewardedAdListener {
     @Override
     public void onUserRewarded(final MaxAd maxAd, final MaxReward maxReward)
     {
-        maxAd.
         // Rewarded ad was displayed and user should receive the reward
         String data = "{\"type\": \"" + maxReward.getLabel() + "\", \"amount\": \"" + maxReward.getAmount() +"\"}";
         AppLovin.reportRewardedEvent(AppLovin.EARNED_REWARD, data);
