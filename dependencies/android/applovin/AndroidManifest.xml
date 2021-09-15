@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="com.admobex">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" package="org.haxe.extension.applovin">
 	<application>
 		<meta-data android:name="applovin.sdk.key"
 			android:value="::ENV_APPLOVIN_SDK_KEY::"/>
