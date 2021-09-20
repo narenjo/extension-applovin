@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <extension>
 	<section if="android">
-		<android extension="org.haxe.extension.applovin.AppLovin" />
 		<dependency name="applovin" path="dependencies/android/applovin" />
 	</section>
 </extension>

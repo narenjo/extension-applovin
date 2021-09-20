@@ -1,35 +1,19 @@
 package org.haxe.extension.applovin;
 
-import android.os.Bundle;
-import android.os.Handler;
-import android.provider.Settings.Secure;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.Gravity;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
-import androidx.annotation.NonNull;
-
-import com.applovin.mediation.MaxAd;
-import com.applovin.mediation.MaxAdListener;
-import com.applovin.mediation.MaxError;
-import com.applovin.mediation.ads.MaxInterstitialAd;
+import com.applovin.sdk.AppLovinPrivacySettings;
 import com.applovin.sdk.AppLovinSdk;
 import com.applovin.sdk.AppLovinSdkConfiguration;
+import com.google.android.ump.ConsentInformation;
+import com.google.android.ump.UserMessagingPlatform;
 
 import org.haxe.extension.Extension;
 import org.haxe.lime.HaxeObject;
 
-import java.security.MessageDigest;
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
-import java.util.concurrent.TimeUnit;
 
 public class AppLovin extends Extension {
 
@@ -186,9 +170,58 @@ public class AppLovin extends Extension {
 
 	private AppLovin() {
 
+		if(tagForChildDirectedTreatment){
+			Log.d("AppLovin","Enabling COPPA support.");
+			//builder.tagForChildDirectedTreatment(true);
+			AppLovinPrivacySettings.setIsAgeRestrictedUser( true, mainContext );
+		}
+
+//		if(UserConsentExtensionAvailable()){
+//			org.haxe.extension.ump.UserConsentExtension.getInstance().addFormDismissedListener(new FormDismissedListener() {
+//				@Override
+//				public void onEvent() {
+//					if(com.google.android.ump.UserMessagingPlatform.getConsentInformation(mainActivity).getConsentStatus() == com.google.android.ump.ConsentInformation.ConsentStatus.OBTAINED) {
+//						AppLovinPrivacySettings.setHasUserConsent(true, mainContext);
+//					}
+//					else{
+//						AppLovinPrivacySettings.setHasUserConsent(false, mainContext);
+//					}
+//				}
+//			});
+////			if(com.google.android.ump.UserMessagingPlatform.getConsentInformation(mainActivity).getConsentStatus() == com.google.android.ump.ConsentInformation.ConsentStatus.REQUIRED) {
+////				if(com.google.android.ump.UserMessagingPlatform.getConsentInformation(mainActivity).getConsentStatus() == com.google.android.ump.ConsentInformation.ConsentStatus.OBTAINED) {
+////					AppLovinPrivacySettings.setHasUserConsent(true, mainContext);
+////				}
+////				else{
+////					AppLovinPrivacySettings.setHasUserConsent(false, mainContext);
+////				}
+////			}
+//		}
+
+
 		// Please make sure to set the mediation provider value to "max" to ensure proper functionality
 		AppLovinSdk.getInstance( mainActivity ).setMediationProvider( "max" );
-		AppLovinSdk.initializeSdk( mainActivity );
+		AppLovinSdk.initializeSdk(mainActivity,
+				new AppLovinSdk.SdkInitializationListener() {
+					@Override
+					public void onSdkInitialized(AppLovinSdkConfiguration config) {
+						if ( config.getConsentDialogState() == AppLovinSdkConfiguration.ConsentDialogState.APPLIES )
+						{
+							if(UserMessagingPlatform.getConsentInformation(mainActivity).getConsentStatus() == ConsentInformation.ConsentStatus.OBTAINED) {
+								AppLovinPrivacySettings.setHasUserConsent(true, mainContext);
+							}
+						}
+						else if ( config.getConsentDialogState() == AppLovinSdkConfiguration.ConsentDialogState.DOES_NOT_APPLY )
+						{
+							// No need to show consent dialog, proceed with initialization
+						}
+						else
+						{
+							// Consent dialog state is unknown. Proceed with initialization, but check if the consent
+							// dialog should be shown on the next application initialization
+						}
+					}
+				});
 
 		if(!AppLovin.interstitialId.equals("")){
 			interstitial = new InterstitialAppLovin(AppLovin.interstitialId);
