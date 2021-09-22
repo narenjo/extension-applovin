@@ -205,6 +205,7 @@ public class AppLovin extends Extension {
 				new AppLovinSdk.SdkInitializationListener() {
 					@Override
 					public void onSdkInitialized(AppLovinSdkConfiguration config) {
+						//AppLovinSdk.getInstance( mainActivity ).showMediationDebugger();
 						if ( config.getConsentDialogState() == AppLovinSdkConfiguration.ConsentDialogState.APPLIES )
 						{
 							if(UserMessagingPlatform.getConsentInformation(mainActivity).getConsentStatus() == ConsentInformation.ConsentStatus.OBTAINED) {
