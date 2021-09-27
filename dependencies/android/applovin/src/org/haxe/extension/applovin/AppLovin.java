@@ -6,6 +6,7 @@ import android.view.Gravity;
 import com.applovin.sdk.AppLovinPrivacySettings;
 import com.applovin.sdk.AppLovinSdk;
 import com.applovin.sdk.AppLovinSdkConfiguration;
+import com.facebook.ads.AdSettings;
 import com.google.android.ump.ConsentInformation;
 import com.google.android.ump.UserMessagingPlatform;
 
@@ -198,6 +199,9 @@ public class AppLovin extends Extension {
 ////			}
 //		}
 
+		//FaceBook LDU (https://developers.facebook.com/docs/marketing-apis/data-processing-options)
+		AdSettings.setDataProcessingOptions( new String[] {} );
+
 
 		// Please make sure to set the mediation provider value to "max" to ensure proper functionality
 		AppLovinSdk.getInstance( mainActivity ).setMediationProvider( "max" );
@@ -205,7 +209,7 @@ public class AppLovin extends Extension {
 				new AppLovinSdk.SdkInitializationListener() {
 					@Override
 					public void onSdkInitialized(AppLovinSdkConfiguration config) {
-						//AppLovinSdk.getInstance( mainActivity ).showMediationDebugger();
+						AppLovinSdk.getInstance( mainActivity ).showMediationDebugger();
 						if ( config.getConsentDialogState() == AppLovinSdkConfiguration.ConsentDialogState.APPLIES )
 						{
 							if(UserMessagingPlatform.getConsentInformation(mainActivity).getConsentStatus() == ConsentInformation.ConsentStatus.OBTAINED) {

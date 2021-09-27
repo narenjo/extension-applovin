@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" xmlns:tools="http://schemas.android.com/tools" package="org.haxe.extension.applovin">
-	<application>
+	<application android:networkSecurityConfig="@xml/network_security_config">
 		<meta-data android:name="applovin.sdk.key"
 			android:value="::ENV_APPLOVIN_SDK_KEY::"/>
 
