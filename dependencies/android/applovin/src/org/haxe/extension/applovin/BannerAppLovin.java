@@ -159,7 +159,6 @@ public class BannerAppLovin implements MaxAdViewAdListener {
 
     @Override
     public void onAdLoadFailed(String adUnitId, MaxError error) {
-        ad = null;
         fail = true;
         loading = false;
         AppLovin.reportBannerEvent(AppLovin.FAILED);
