@@ -177,28 +177,6 @@ public class AppLovin extends Extension {
 			AppLovinPrivacySettings.setIsAgeRestrictedUser( true, mainContext );
 		}
 
-//		if(UserConsentExtensionAvailable()){
-//			org.haxe.extension.ump.UserConsentExtension.getInstance().addFormDismissedListener(new FormDismissedListener() {
-//				@Override
-//				public void onEvent() {
-//					if(com.google.android.ump.UserMessagingPlatform.getConsentInformation(mainActivity).getConsentStatus() == com.google.android.ump.ConsentInformation.ConsentStatus.OBTAINED) {
-//						AppLovinPrivacySettings.setHasUserConsent(true, mainContext);
-//					}
-//					else{
-//						AppLovinPrivacySettings.setHasUserConsent(false, mainContext);
-//					}
-//				}
-//			});
-////			if(com.google.android.ump.UserMessagingPlatform.getConsentInformation(mainActivity).getConsentStatus() == com.google.android.ump.ConsentInformation.ConsentStatus.REQUIRED) {
-////				if(com.google.android.ump.UserMessagingPlatform.getConsentInformation(mainActivity).getConsentStatus() == com.google.android.ump.ConsentInformation.ConsentStatus.OBTAINED) {
-////					AppLovinPrivacySettings.setHasUserConsent(true, mainContext);
-////				}
-////				else{
-////					AppLovinPrivacySettings.setHasUserConsent(false, mainContext);
-////				}
-////			}
-//		}
-
 		//FaceBook LDU (https://developers.facebook.com/docs/marketing-apis/data-processing-options)
 		AdSettings.setDataProcessingOptions( new String[] {} );
 
@@ -209,7 +187,7 @@ public class AppLovin extends Extension {
 				new AppLovinSdk.SdkInitializationListener() {
 					@Override
 					public void onSdkInitialized(AppLovinSdkConfiguration config) {
-						AppLovinSdk.getInstance( mainActivity ).showMediationDebugger();
+//						AppLovinSdk.getInstance( mainActivity ).showMediationDebugger();
 						if ( config.getConsentDialogState() == AppLovinSdkConfiguration.ConsentDialogState.APPLIES )
 						{
 							if(UserMessagingPlatform.getConsentInformation(mainActivity).getConsentStatus() == ConsentInformation.ConsentStatus.OBTAINED) {
@@ -225,9 +203,12 @@ public class AppLovin extends Extension {
 							// Consent dialog state is unknown. Proceed with initialization, but check if the consent
 							// dialog should be shown on the next application initialization
 						}
+						loadAds();
 					}
 				});
+	}
 
+	void loadAds(){
 		if(!AppLovin.interstitialId.equals("")){
 			interstitial = new InterstitialAppLovin(AppLovin.interstitialId);
 		}
